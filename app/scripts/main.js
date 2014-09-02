@@ -5,7 +5,7 @@ var app = {};
 app.websocketUrl = "http://localhost:5071";
 
 app.init = function () {
-    this.api = AirbexApiWs;
+    this.api = new AirbexApiWs();
     this.api.init(app.websocketUrl);
     
     this.api.addListener('connected', app.onConnected);
@@ -55,7 +55,9 @@ app.onConnected = function (){
     var api = app.api;
     app.$wsStatus.text("Connected");
     api.getMarkets()
-    .done(app.getDepths);
+    .done(function(){
+        app.getDepths()
+    });
     api.getCurrencies();
     api.getBalances();
 }

@@ -97,6 +97,23 @@ DepthView.render = function (error, depth) {
             $orderBook.insertAfter(DepthView.$orderBookContainer);
         }
         $orderBook.find(".market-id").text(marketId);
+        
+        if(depth.bids){
+            $.each(depth.bids, function(i, bid) {
+                var $tr = $('<tr>').append(
+                        $('<td>').text(bid[0]),
+                        $('<td>').text(bid[1]))
+                .appendTo($orderBook.find(".bids-tbody"));
+            });
+        }
+        if(depth.asks){
+            $.each(depth.asks, function(i, ask) {
+                var $tr = $('<tr>').append(
+                        $('<td>').text(ask[0]),
+                        $('<td>').text(ask[1]))
+                .appendTo($orderBook.find(".asks-tbody"));
+            });
+        }
     } else {
     }
 }
