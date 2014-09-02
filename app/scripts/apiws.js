@@ -1,7 +1,7 @@
 var Airbex = (function () {
     'use strict';
 
-    function AirbexApiWs(options) {
+    function ApiWebSocket(options) {
         options = options || {}
         this.callbacks = {}
         this.currentCallbackId = 0;
@@ -122,5 +122,8 @@ var Airbex = (function () {
         }
     }
 
-    this.AirbexApiWs = AirbexApiWs;
-}.call(this));
+    return {
+        ApiWebSocket: ApiWebSocket
+    }
+    //this.ApiWebSocket = ApiWebSocket;
+})()
