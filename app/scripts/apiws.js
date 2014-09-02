@@ -1,15 +1,13 @@
-(function () {
+var Airbex = (function () {
     'use strict';
 
-    function AirbexApiWs() {
+    function AirbexApiWs(options) {
+        options = options || {}
         this.callbacks = {}
         this.currentCallbackId = 0;
+        this.ee = new EventEmitter();
+        this.url = options.url;
         
-        this.init = function init(url) {
-            this.ee = new EventEmitter();
-            this.url = url;
-        }
-
         this.start = function start() {
             var me = this
             this.socketio = io(this.url);
@@ -65,13 +63,11 @@
 
 
         this.getMarkets = function getMarkets(){
-            console.log("getMarkets: ", this.ciao)
             return this.sendMessage('markets', {})
         }
 
         this.onMarkets = function onMarkets (me, error, markets){
             console.log('markets: ' + JSON.stringify(markets));
-            //this.ee.emitEvent('markets', [error, markets]);
             emitEvent(me, 'markets', [error, markets])
         }
 
@@ -101,6 +97,7 @@
             console.log('onDepth: ' + JSON.stringify(depth));
             emitEvent(me, 'depth', [error, depth]);
         }
+        
         function getCallbackId(me) {
             me.currentCallbackId += 1;
             if(me.currentCallbackId > 10000) {

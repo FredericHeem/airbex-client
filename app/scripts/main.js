@@ -5,8 +5,7 @@ var app = {};
 app.websocketUrl = "http://localhost:5071";
 
 app.init = function () {
-    this.api = new AirbexApiWs();
-    this.api.init(app.websocketUrl);
+    this.api = new AirbexApiWs({url:app.websocketUrl});
     
     this.api.addListener('connected', app.onConnected);
     this.api.addListener('markets', app.onMarkets);
