@@ -43,6 +43,6 @@
   },
   "scripts": {
     "start": "./node_modules/grunt-cli/bin/grunt serve",
-    "test": "DEBUG='* -mocha:*' NODE_ENV=local mocha"
+    "test": "DEBUG='* -mocha:* -socket.io-client:* -engine.io-client:* -socket.io-parser:*' NODE_ENV=local mocha"
   }
 }
