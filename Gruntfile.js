@@ -1,11 +1,4 @@
-// Generated on 2014-08-29 using generator-webapp 0.4.9
 'use strict';
-
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to recursively match all subfolders:
-// 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
 
@@ -35,31 +28,31 @@ module.exports = function (grunt) {
                 command: './node_modules/browserify/bin/cmd.js lib/Airbex.js --standalone <%= pkg.name %> -o browser/dist/<%= pkg.name %>.standalone.js'
             }
         },
-        browserify: {
-          standalone: {
-            src: [ 'lib/Airbex.js' ],
-            dest: './browser/dist/<%= pkg.name %>.standalone.js',
-            browserifyOptions: {
-              standalone: 'Airbex'
-            }
-          },
-          require: {
-            src: [ 'lib/Airbex.js' ],
-            dest: './browser/dist/<%= pkg.name %>.require.js',
-            browserifyOptions: {
-              alias: [ './lib/Airbex:' ]
-            }
-          },
-          tests: {
-            src: [ 'browser/test/suite.js' ],
-            dest: './browser/test/browserified_tests.js',
-            options: {
-              external: [ './<%= pkg.name %>.js' ],
-              // Embed source map for tests
-              debug: true
-            }
-          }
-        },
+//        browserify: {
+//          standalone: {
+//            src: [ 'lib/Airbex.js' ],
+//            dest: './browser/dist/<%= pkg.name %>.standalone.js',
+//            browserifyOptions: {
+//              standalone: 'Airbex'
+//            }
+//          },
+//          require: {
+//            src: [ 'lib/Airbex.js' ],
+//            dest: './browser/dist/<%= pkg.name %>.require.js',
+//            browserifyOptions: {
+//              alias: [ './lib/Airbex:' ]
+//            }
+//          },
+//          tests: {
+//            src: [ 'browser/test/suite.js' ],
+//            dest: './browser/test/browserified_tests.js',
+//            options: {
+//              external: [ './<%= pkg.name %>.js' ],
+//              // Embed source map for tests
+//              debug: true
+//            }
+//          }
+//        },
         // Watches files for changes and runs tasks based on the changed files
         watch: {
             bower: {
@@ -67,8 +60,8 @@ module.exports = function (grunt) {
                 tasks: ['bowerInstall']
             },
             js: {
-                files: ['<%= config.app %>/scripts/{,*/}*.js'],
-                tasks: ['jshint'],
+                files: ['<%= config.app %>/scripts/{,*/}*.js', 'lib/*.js'],
+                tasks: ['shell','jshint'],
                 options: {
                     livereload: true
                 }
@@ -279,32 +272,6 @@ module.exports = function (grunt) {
                 }]
             }
         },
-
-        // By default, your `index.html`'s <!-- Usemin block --> will take care of
-        // minification. These next options are pre-configured if you do not wish
-        // to use the Usemin blocks.
-        // cssmin: {
-        //     dist: {
-        //         files: {
-        //             '<%= config.dist %>/styles/main.css': [
-        //                 '.tmp/styles/{,*/}*.css',
-        //                 '<%= config.app %>/styles/{,*/}*.css'
-        //             ]
-        //         }
-        //     }
-        // },
-        // uglify: {
-        //     dist: {
-        //         files: {
-        //             '<%= config.dist %>/scripts/scripts.js': [
-        //                 '<%= config.dist %>/scripts/scripts.js'
-        //             ]
-        //         }
-        //     }
-        // },
-        // concat: {
-        //     dist: {}
-        // },
 
         // Copies remaining files to places other tasks can use
         copy: {
