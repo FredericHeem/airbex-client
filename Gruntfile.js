@@ -23,10 +23,43 @@ module.exports = function (grunt) {
 
     // Define the configuration for all the tasks
     grunt.initConfig({
-
+        pkg: grunt.file.readJSON('package.json'),
         // Project settings
         config: config,
-
+        shell: {
+            browserify: {
+                options: {
+                    stdout: true,
+                    stderr: true
+                },
+                command: './node_modules/browserify/bin/cmd.js lib/Airbex.js --standalone <%= pkg.name %> -o browser/dist/<%= pkg.name %>.standalone.js'
+            }
+        },
+        browserify: {
+          standalone: {
+            src: [ 'lib/Airbex.js' ],
+            dest: './browser/dist/<%= pkg.name %>.standalone.js',
+            browserifyOptions: {
+              standalone: 'Airbex'
+            }
+          },
+          require: {
+            src: [ 'lib/Airbex.js' ],
+            dest: './browser/dist/<%= pkg.name %>.require.js',
+            browserifyOptions: {
+              alias: [ './lib/Airbex:' ]
+            }
+          },
+          tests: {
+            src: [ 'browser/test/suite.js' ],
+            dest: './browser/test/browserified_tests.js',
+            options: {
+              external: [ './<%= pkg.name %>.js' ],
+              // Embed source map for tests
+              debug: true
+            }
+          }
+        },
         // Watches files for changes and runs tasks based on the changed files
         watch: {
             bower: {
@@ -78,7 +111,8 @@ module.exports = function (grunt) {
                         return [
                             connect.static('.tmp'),
                             connect().use('/bower_components', connect.static('./bower_components')),
-                            connect.static(config.app)
+                            connect.static(config.app),
+                            connect.static('browser/dist')
                         ];
                     }
                 }
@@ -92,7 +126,8 @@ module.exports = function (grunt) {
                             connect.static('.tmp'),
                             connect.static('test'),
                             connect().use('/bower_components', connect.static('./bower_components')),
-                            connect.static(config.app)
+                            connect.static(config.app),
+                            connect.static('browser/dist')
                         ];
                     }
                 }
@@ -327,6 +362,7 @@ module.exports = function (grunt) {
 
         grunt.task.run([
             'clean:server',
+            'shell:browserify',
             'concurrent:server',
             'autoprefixer',
             'connect:livereload',
@@ -357,6 +393,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'useminPrepare',
+        'shell:browserify',
         'concurrent:dist',
         'autoprefixer',
         'concat',

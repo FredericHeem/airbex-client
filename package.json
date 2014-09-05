@@ -1,5 +1,5 @@
 {
-  "name": "airbex-wsclient",
+  "name": "Airbex",
   "version": "0.0.0",
   "dependencies": {},
   "devDependencies": {
@@ -24,12 +24,15 @@
     "grunt-concurrent": "~0.5.0",
     "load-grunt-tasks": "~0.4.0",
     "time-grunt": "~0.3.1",
-    "jshint-stylish": "~0.1.5"
+    "jshint-stylish": "~0.1.5",
+    "browserify": "5.11.1",
+    "grunt-browserify": "x",
+    "grunt-shell": "~0.6.4"
   },
   "engines": {
     "node": ">=0.10.0"
   },
   "scripts": {
-      "start": "./node_modules/grunt-cli/bin/grunt serve"
-    }
+    "start": "./node_modules/grunt-cli/bin/grunt serve"
+  }
 }
