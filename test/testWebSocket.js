@@ -8,8 +8,6 @@ var Airbex = require('../lib/Airbex');
 
 describe('WebSocket', function () {
     "use strict";
-    
-    var apiws = new Airbex.WebSocketClient({url:config.url});
 
     describe('WebSocketKo', function () {
         it('ConnectKo', function (done) {
@@ -18,19 +16,23 @@ describe('WebSocket', function () {
         });
     });
     
-    describe('WebSocketOk', function () {
+    describe('WebSocketPublic', function () {
+        var apiws = new Airbex.WebSocketClient({url:config.url});
         before(function(done) {
-            debug("before")
-            apiws.start().then(done);
+            apiws.start().done(done);
         });
-        it('MarketsOk', function (done) {
+        after(function(done) {
+            apiws.stop();
+            done();
+        });
+        it('MarketsPublicOk', function (done) {
             apiws.getMarkets()
            .done(function(markets){
                assert(markets)
                done()
            });
         });
-        it('CurrenciesOk', function (done) {
+        it('CurrenciesPublicOk', function (done) {
             apiws.getCurrencies()
            .done(function(currencies){
                assert(currencies)
@@ -46,6 +48,41 @@ describe('WebSocket', function () {
            })
         });
     });
-    
-   
+    describe('WebSocketAuthenticated', function () {
+        var apiws = new Airbex.WebSocketClient({
+            url:config.url,
+            apiKey:config.apiKey
+        });
+        before(function(done) {
+            this.timeout(30e3);
+            apiws.start()
+            .fail(function(){
+                assert(false);
+            })
+            .done(function(){
+                done();
+            })
+        });
+        it('MarketsAuthenticatedOk', function (done) {
+            apiws.getMarkets()
+           .done(function(markets){
+               assert(markets)
+               done()
+           });
+        });
+        it('CurrenciesAuthenticatedOk', function (done) {
+            apiws.getCurrencies()
+           .done(function(currencies){
+               assert(currencies)
+               done()
+           });
+        });
+        it('BalanceAuthenticatedOk', function (done) {
+            apiws.getBalances()
+           .done(function(balances){
+               assert(balances)
+               done();
+           })
+        });
+    });
 });
