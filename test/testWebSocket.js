@@ -2,9 +2,11 @@
 var assert = require('assert');
 var request = require('supertest');
 var async = require('async');
+var _ = require('underscore');
 var config = require('./configTest.js')();
 var debug = require('debug')('WebSocket');
 var Airbex = require('../lib/Airbex');
+
 
 describe('WebSocket', function () {
     "use strict";
@@ -27,9 +29,21 @@ describe('WebSocket', function () {
         });
         it('MarketsPublicOk', function (done) {
             apiws.getMarkets()
+            .done(function(markets){
+                assert(markets)
+                done()
+            });
+        });
+        it('DepthPublicOk', function (done) {
+            apiws.getMarkets()
            .done(function(markets){
-               assert(markets)
-               done()
+               _.each(markets, function(market, index){
+                   apiws.getDepth(market.id).done(function(){
+                       if((index + 1) == markets.length){
+                           done()
+                       }
+                   })
+               })
            });
         });
         it('CurrenciesPublicOk', function (done) {

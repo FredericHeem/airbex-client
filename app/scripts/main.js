@@ -11,7 +11,7 @@ app.init = function () {
     this.api.addListener('markets', app.onMarkets);
     this.api.addListener('currencies', app.onCurrencies);
     this.api.addListener('balances', app.onBalances);
-    this.api.addListener('depth', app.onDepth);
+    this.api.addListener('/v1/market/depth', app.onDepth);
     this.api.start();
     
     this.view = View;
@@ -39,7 +39,6 @@ app.onBalances = function (error, balances){
 
 app.onDepth = function (error, depth){
     console.log('onDepth: ' + JSON.stringify(depth));
-    //$(".currencies-tbody").empty();
     app.view.depth.render(error, depth);
 }
 
@@ -47,7 +46,6 @@ app.onError = function (error){
     console.log('connect_error ', error.description.message);
     app.$wsStatus.text('Error');
 }
-
 
 app.onConnected = function (){
     console.log('socketioClient connect');
@@ -68,9 +66,11 @@ app.getDepths = function (){
     
     $.each(app.bom.markets, function(i, market){
         app.api.getDepth(market.id)
+        .done(function(depth){
+            console.log("getDepths ", depth)
+        })
     })
 }
-
 
 app.init();
 
