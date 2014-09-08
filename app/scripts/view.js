@@ -5,7 +5,7 @@
 /// Market Summary View
 var MarketSummaryView = {};
 
-MarketSummaryView.render = function (error, markets) {
+MarketSummaryView.render = function (markets) {
     $(".markets-tbody").empty();
     if(markets){
 
@@ -29,7 +29,7 @@ MarketSummaryView.render = function (error, markets) {
 // Currencies View
 var CurrenciesView = {};
 
-CurrenciesView.render = function (error, currencies) {
+CurrenciesView.render = function (currencies) {
     $(".currencies-tbody").empty();
     
     if(currencies){
@@ -55,13 +55,13 @@ BalancesView.init = function(){
     this.$alertBalances = $("#alert-balances");
 }
 
-BalancesView.render = function (error, balances) {
+BalancesView.render = function (balances, error) {
     $(".balances-tbody").empty();
     
     if(balances){
         BalancesView.$alertBalances.hide()
         $.each(balances, function(i, currency) {
-            var $tr = $('<tr>').append(
+            $('<tr>').append(
                     $('<td>').text(currency.name),
                     $('<td>').text(currency.id),
                     $('<td>').text(currency.fiat),
@@ -85,7 +85,7 @@ DepthView.init = function(){
     this.$orderBookContainer = $("#order-book-container-template");
 }
 
-DepthView.render = function (error, depth) {
+DepthView.render = function (depth) {
     if(depth){
         var marketId = depth.marketId;
         var orderBookSelector = "order-book-container-" + marketId

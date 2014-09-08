@@ -8,10 +8,8 @@ app.init = function () {
     this.api = new Airbex.WebSocketClient({url:app.websocketUrl});
     
     this.api.addListener('connected', app.onConnected);
-    this.api.addListener('markets', app.onMarkets);
-    this.api.addListener('currencies', app.onCurrencies);
-    this.api.addListener('balances', app.onBalances);
-    this.api.addListener('/v1/market/depth', app.onDepth);
+    this.api.addListener('connect_error', app.onConnectError);
+    this.api.addListener('error', app.onError);
     this.api.start();
     
     this.view = View;
@@ -21,29 +19,13 @@ app.init = function () {
     this.$wsStatus.text("Idle");
 }
 
-app.onMarkets = function (error, markets){
-    console.log('markets: ' + JSON.stringify(markets));
-    app.bom.markets = markets;
-    app.view.marketSummary.render(error, markets);
-}
-
-app.onCurrencies = function (error, currencies){
-    console.log('currency: ' + JSON.stringify(currencies));
-    app.view.currencies.render(error, currencies);
-}
-
-app.onBalances = function (error, balances){
-    console.log('onBalances: ' + JSON.stringify(balances));
-    app.view.balances.render(error, balances);
-}
-
-app.onDepth = function (error, depth){
-    console.log('onDepth: ' + JSON.stringify(depth));
-    app.view.depth.render(error, depth);
+app.onConnectError = function (){
+    console.log('connect_error ');
+    app.$wsStatus.text('Error');
 }
 
 app.onError = function (error){
-    console.log('connect_error ', error.description.message);
+    console.log('error ', error.description.message);
     app.$wsStatus.text('Error');
 }
 
@@ -51,12 +33,26 @@ app.onConnected = function (){
     console.log('socketioClient connect');
     var api = app.api;
     app.$wsStatus.text("Connected");
+    
     api.getMarkets()
-    .done(function(){
+    .then(function(markets){
+        app.bom.markets = markets;
+        app.view.marketSummary.render(markets);
         app.getDepths()
     });
-    api.getCurrencies();
-    api.getBalances();
+    
+    api.getCurrencies()
+    .then(function(currencies){
+        app.view.currencies.render(currencies);
+    });
+    
+    api.getBalances()
+    .then(function(balances){
+        app.view.balances.render(balances);
+    })
+    .fail(function(error){
+        app.view.balances.render(null, error);
+    })
 }
 
 app.getDepths = function (){
@@ -67,7 +63,8 @@ app.getDepths = function (){
     $.each(app.bom.markets, function(i, market){
         app.api.getDepth(market.id)
         .done(function(depth){
-            console.log("getDepths ", depth)
+            //console.log("getDepths ", depth)
+            app.view.depth.render(depth);
         })
     })
 }
