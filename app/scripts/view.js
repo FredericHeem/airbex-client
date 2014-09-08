@@ -1,8 +1,8 @@
 'use strict';
 
 $('body').scrollspy({
-    target: '#sidebar',
-    offset: 40
+    target: '.bs-docs-sidebar',
+    offset: 60
 });
 
 /// Market Summary View
@@ -14,10 +14,9 @@ MarketSummaryView.render = function (markets) {
 
         $("#alert-markets").hide()
         $.each(markets, function(i, market) {
-            //<li><a href="#secMarket-BTCEUR">BTCEUR</a></li>
             
             $('<li>').append(
-                    $('<a>').text(market.id)
+                    $('<a>').text(market.id).attr('href', '#sec-market-' + market.id)
                     
             ).appendTo($(".market-submenu"));
             
@@ -31,6 +30,7 @@ MarketSummaryView.render = function (markets) {
                     $('<td>').text(market.last || 'N/A')
             ).appendTo($(".markets-tbody"));
         });
+         
     } else {
 
     }
@@ -104,9 +104,9 @@ DepthView.render = function (depth) {
             
             $orderBook = DepthView.$orderBookContainer.clone();
             $orderBook.attr('id', orderBookSelector);
-            $orderBook.insertAfter(DepthView.$orderBookContainer);
+            $orderBook.insertBefore(DepthView.$orderBookContainer);
         }
-        $orderBook.find(".market-id").text(marketId);
+        $orderBook.find(".market-id").text(marketId).parent().parent().attr('id', 'sec-market-' + marketId);
         
         if(depth.bids){
             $.each(depth.bids, function(i, bid) {
@@ -124,6 +124,9 @@ DepthView.render = function (depth) {
                 .appendTo($orderBook.find(".asks-tbody"));
             });
         }
+        
+        $('body').scrollspy('refresh'); 
+        
     } else {
     }
 }

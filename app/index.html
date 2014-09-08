@@ -15,21 +15,51 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
+    <div class="navbar navbar-default navbar-fixed-top"
+        role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <img src="img/logo-airbex-small.png" id="logo" />
+                <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse"
+                    data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span> <span
+                        class="icon-bar"></span> <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
 
-    <div class="container">
-        <div class="header">
-            <ul class="nav nav-pills pull-right">
-                <li class="active"><a class="btn btn-lg" href="#">Status:
-                        <span class="ws-status"></span>
-                </a></li>
-            </ul>
-            <h3 class="text-muted">Airbex WebSocket Client example</h3>
+                <a class="navbar-brand" href="#"></a>
+            </div>
+            <div class="navbar-collapse collapse">
+
+                <ul class="nav navbar-nav">
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><span class="label label-success ws-status"></span></li>
+                </ul>
+            </div>
         </div>
+    </div>
+
+    <div class="container content">
+
+
+
+        <!--         <div class="navbar navbar-fixed-top"> -->
+
+        <!--             <h3 class="text-muted">Airbex WebSocket Client example</h3> -->
+
+        <!--             <ul class="nav nav-pills pull-right"> -->
+        <!--                 <li class="active"><a class="btn btn-lg" href="#">Status: -->
+        <!--                         <span class="ws-status"></span> -->
+        <!--                 </a></li> -->
+        <!--             </ul> -->
+        <!--         </div> -->
 
         <div class="row">
-            <nav class="col-md-2" id="sidebar">
-                <ul class="nav nav-stacked fixed">
-                    <li><a href="#secMarkets">Markets</a>
+            <nav class="col-md-2 bs-docs-sidebar" >
+                <ul class="nav nav-stacked fixed" id="sidebar">
+                    <li class="active"><a href="#secMarkets">Markets</a>
                         <ul class="market-submenu nav nav-stacked">
                         </ul></li>
                     <li><a href="#secCurrencies">Currencies</a></li>
@@ -37,8 +67,8 @@
                 </ul>
             </nav>
             <div class="col-md-10">
-                <div>
-                    <h2 id="secMarkets">Markets summary</h2>
+                <section id="secMarkets" >
+                    <h2 >Markets summary</h2>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -55,43 +85,45 @@
                         </tbody>
                     </table>
                     <div id="alert-markets" class="alert alert-warning"></div>
-                </div>
 
-                <div class="row" class="order-book-container"
-                    id="order-book-container-template">
-                    <h2>
-                        <span class="market-id"></span> Order Book
-                    </h2>
-                    <div class="col-lg-6">
-                        <h2>Bid</h2>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Volume</th>
-                                    <th>Price</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bids-tbody">
-                            </tbody>
-                        </table>
+                    <div class="order-book-container"
+                        id="order-book-container-template">
+                        <h3>
+                            <span class="market-id"></span> Order Book
+                        </h3>
+                        <div class="col-lg-6">
+                            <h4>Bid</h4>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Volume</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bids-tbody">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-6">
+                            <h4>Ask</h4>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Volume</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="asks-tbody">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="col-lg-6">
-                        <h2>Ask</h2>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Volume</th>
-                                    <th>Price</th>
-                                </tr>
-                            </thead>
-                            <tbody class="asks-tbody">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                </section>
 
-                <div class="row">
-                    <h2 id="secCurrencies">Currencies</h2>
+
+
+                <section id="secCurrencies">
+                    <h2 >Currencies</h2>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -108,9 +140,9 @@
                         <tbody class="currencies-tbody">
                         </tbody>
                     </table>
-                </div>
-                <div class="row">
-                    <h2 id="secBalances">Balances</h2>
+                </section>
+                <section id="secBalances">
+                    <h2 >Balances</h2>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -124,7 +156,7 @@
                         </tbody>
                     </table>
                     <div id="alert-balances" class="alert alert-warning"></div>
-                </div>
+                </section>
             </div>
         </div>
         <div class="footer">
