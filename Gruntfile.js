@@ -75,7 +75,7 @@ module.exports = function (grunt) {
             },
             styles: {
                 files: ['<%= config.app %>/styles/{,*/}*.css'],
-                tasks: ['newer:copy:styles', 'autoprefixer']
+                tasks: ['concat:development_css']
             },
             livereload: {
                 options: {
@@ -83,12 +83,25 @@ module.exports = function (grunt) {
                 },
                 files: [
                     '<%= config.app %>/{,*/}*.html',
-                    '.tmp/styles/{,*/}*.css',
                     '<%= config.app %>/images/{,*/}*'
                 ]
             }
         },
 
+        concat: {
+            development_css: {
+                options: {
+                    separator: '\n'
+                },
+
+                files: {
+                    '<%= config.dist %>/styles/main.css': 
+                        [
+                         '<%= config.app %>/styles/main.css'
+                         ]
+                }
+            }
+        },
         // The actual grunt server settings
         connect: {
             options: {

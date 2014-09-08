@@ -1,6 +1,9 @@
 'use strict';
 
-
+$('body').scrollspy({
+    target: '#sidebar',
+    offset: 40
+});
 
 /// Market Summary View
 var MarketSummaryView = {};
@@ -11,7 +14,14 @@ MarketSummaryView.render = function (markets) {
 
         $("#alert-markets").hide()
         $.each(markets, function(i, market) {
-            var $tr = $('<tr>').append(
+            //<li><a href="#secMarket-BTCEUR">BTCEUR</a></li>
+            
+            $('<li>').append(
+                    $('<a>').text(market.id)
+                    
+            ).appendTo($(".market-submenu"));
+            
+            $('<tr>').append(
                     $('<td>').text(market.id),
                     $('<td>').text(market.bid || 'N/A'),
                     $('<td>').text(market.ask || 'N/A'),

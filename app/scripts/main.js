@@ -38,7 +38,7 @@ app.onConnected = function (){
     .then(function(markets){
         app.bom.markets = markets;
         app.view.marketSummary.render(markets);
-        app.getDepths()
+        app.getDepths(markets)
     });
     
     api.getCurrencies()
@@ -55,12 +55,8 @@ app.onConnected = function (){
     })
 }
 
-app.getDepths = function (){
-    if(!app.bom.markets){
-        return;
-    }
-    
-    $.each(app.bom.markets, function(i, market){
+app.getDepths = function (markets){
+    $.each(markets, function(i, market){
         app.api.getDepth(market.id)
         .done(function(depth){
             //console.log("getDepths ", depth)

@@ -46,9 +46,8 @@ body {
 
 
 /* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1024px) {
     .container {
-        max-width: 730px;
     }
 
     /* Remove the padding we set earlier */
@@ -64,10 +63,27 @@ body {
         margin-bottom: 30px;
     }
     
-    /* Remove the bottom border on the jumbotron for visual effect */
-    .jumbotron {
-        border-bottom: 0;
-    }
+}
+
+.fixed {
+    position: fixed;
+}
+
+#sidebar .nav .nav>li>a {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 30px;
+    font-size: 12px;
+}
+
+
+/* hide all (inactive) nested list */
+#sidebar .nav ul.nav {
+    display: none;           
+}
+/* show active nested list */
+#sidebar .nav>.active>ul.nav {
+    display: block;           
 }
 
 #alert-markets, #alert-balances, #order-book-container-template {
