@@ -20,6 +20,23 @@ var StatusView = function(){
     }
 }
 
+var SettingsView = function(){
+    
+    this.$form = $("#settings");
+    this.$apiKey = this.$form.find('.form-group.apikey');
+    this.$webSocketUrl = this.$form.find('.form-group.webSocketUrl');
+    
+    this.render = function(model){
+        this.$apiKey.find('input').val(model.apiKey);
+        this.$webSocketUrl.find('input').val(model.webSocketUrl);
+    }
+    
+    this.getModel = function(){
+        var apiKey = this.$apiKey.find('input').val();
+        var webSocketUrl = this.$webSocketUrl.find('input').val();
+        return {apiKey: apiKey, webSocketUrl: webSocketUrl}
+    }
+}
 
 /// Market Summary View
 var MarketSummaryView = function(){
@@ -151,6 +168,7 @@ var DepthView = function(){
 //View container
 var View = 
 {
+        settings: new SettingsView(),
         status: new StatusView(),
         marketSummary: new MarketSummaryView(),
         currencies: new CurrenciesView(),

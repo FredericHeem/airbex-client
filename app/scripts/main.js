@@ -1,5 +1,43 @@
 'use strict';
 
+
+
+var SettingsController = function(view){
+    console.log("SettingsController");
+    this.view = view;
+    this.model = {}
+    
+    this.retrieveSettings = function (){
+        var apiKey = localStorage.getItem("apikey");
+        
+        var webSocketUrl = localStorage.getItem("webSocketUrl");
+        if(webSocketUrl === undefined){
+            webSocketUrl = app.websocketUrl; 
+        }
+        return {apiKey: apiKey, webSocketUrl:webSocketUrl}
+    }
+    
+    this.saveSettings = function (model){
+        localStorage.setItem("apikey", model.apiKey);
+        localStorage.setItem("webSocketUrl", model.webSocketUrl);
+    }
+    
+    this.model = this.retrieveSettings();
+    view.render(this.model);
+    
+    this.view.$form.on('submit', function(e) {
+        var model = this.view.getModel();
+        this.saveSettings(model);
+        
+        e.preventDefault()
+    })
+};
+
+var Controller = function(view){
+    
+    this.settings = new  SettingsController(view.settings)
+};
+
 var app = {};
 
 app.websocketUrl = "http://localhost:5071";
@@ -14,7 +52,7 @@ app.init = function () {
     
     this.view = View;
     
-    this.controller = Controller;
+    this.controller = new Controller(this.view);
     this.bom = {};
 }
 
@@ -65,43 +103,6 @@ app.getDepths = function (markets){
 
 app.init();
 
-var SettingsController = function(){
-    console.log("SettingsController");
-    
-    var $form = $("#settings");
-    var $apiKey = $form.find('.form-group.apikey');
-    var $webSocketUrl = $form.find('.form-group.webSocketUrl');
-    
-    function retrieveSettings(){
-        var apiKey = localStorage.getItem("apikey");
-        $apiKey.find('input').val(apiKey);
-        
-        var webSocketUrl = localStorage.getItem("webSocketUrl");
-        if(webSocketUrl === undefined){
-            webSocketUrl = app.websocketUrl; 
-        }
-        $webSocketUrl.find('input').val(webSocketUrl);
-    }
-    
-    retrieveSettings();
-    
-    $form.on('submit', function(e) {
 
-        var apiKey = $apiKey.find('input').val();
-        localStorage.setItem("apikey",apiKey);
-        
-        var webSocketUrl = $webSocketUrl.find('input').val();
-        localStorage.setItem("webSocketUrl",webSocketUrl);
-        e.preventDefault()
-        console.log("settings");
-    })
-};
-
-var Controller = {
-        status: new SettingsController()
-};
-
-Controller.init = function(){
-}
 
 
