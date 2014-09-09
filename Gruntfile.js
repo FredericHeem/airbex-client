@@ -28,6 +28,20 @@ module.exports = function (grunt) {
                 command: './node_modules/browserify/bin/cmd.js lib/Airbex.js --standalone <%= pkg.name %> -o browser/dist/<%= pkg.name %>.standalone.js'
             }
         },
+        browserify: {
+            options: {
+                detectGlobals: false
+            },
+
+            development: {
+                options: {
+                    debug: true
+                },
+                files: {
+                    '<%= config.dist %>/app.js': '<%= config.app %>/scripts/main.js'
+                }
+            }
+        },
         // Watches files for changes and runs tasks based on the changed files
         watch: {
             bower: {
@@ -36,7 +50,7 @@ module.exports = function (grunt) {
             },
             js: {
                 files: ['<%= config.app %>/scripts/{,*/}*.js', 'lib/*.js'],
-                tasks: ['shell','jshint'],
+                tasks: ['shell','browserify:development','jshint'],
                 options: {
                     livereload: true
                 }
@@ -94,7 +108,7 @@ module.exports = function (grunt) {
                     middleware: function(connect) {
                         return [
                             connect().use('/bower_components', connect.static('./bower_components')),
-                            connect.static(config.app),
+                            connect.static(config.dist),
                             connect.static('browser/dist')
                         ];
                     }
@@ -108,7 +122,7 @@ module.exports = function (grunt) {
                         return [
                             connect.static('test'),
                             connect().use('/bower_components', connect.static('./bower_components')),
-                            connect.static(config.app),
+                            connect.static(config.dist),
                             connect.static('browser/dist')
                         ];
                     }
@@ -159,7 +173,6 @@ module.exports = function (grunt) {
             }
         },
 
-
         // Automatically inject Bower components into the HTML file
         bowerInstall: {
             app: {
@@ -167,7 +180,16 @@ module.exports = function (grunt) {
                 exclude: ['bower_components/bootstrap/dist/js/bootstrap.js']
             }
         },
+        ejs: {
+            options: {
+                environment: process.env.NODE_ENV || 'dev'
+            },
 
+            'index.html': {
+                src: '<%= config.app %>/index.html',
+                dest: '<%= config.dist %>/index.html'
+            }
+        },
         // Copies remaining files to places other tasks can use
         copy: {
             dist: {
@@ -177,8 +199,7 @@ module.exports = function (grunt) {
                     cwd: '<%= config.app %>',
                     dest: '<%= config.dist %>',
                     src: [
-                        '*.{ico,png,txt}',
-                        'images/{,*/}*.webp',
+                        'img/*.{ico,png}',
                         '{,*/}*.html',
                         'styles/fonts/{,*/}*.*'
                     ]
@@ -213,17 +234,20 @@ module.exports = function (grunt) {
         }
     });
 
-
     grunt.registerTask('serve', function (target) {
         if (target === 'dist') {
             return grunt.task.run(['build', 'connect:dist:keepalive']);
         }
 
         grunt.task.run([
+            'ejs',
             'shell:browserify',
+            'browserify:development',
+            'copy:dist',
             'concurrent:server',
             'connect:livereload',
             'watch'
+            
         ]);
     });
 
@@ -248,6 +272,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'shell:browserify',
+        'browserify:development',
         'concurrent:dist',
         'copy:dist'
     ]);

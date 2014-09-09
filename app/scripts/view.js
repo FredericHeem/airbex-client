@@ -118,8 +118,6 @@ var BalancesView = function(){
     }
 };
 
-
-
 //Market Depth View
 var DepthView = function(){
     this.$orderBookContainer = $("#order-book-container-template");
@@ -172,3 +170,5 @@ var View =
         depth: new DepthView()
 };
 
+
+module.exports = View

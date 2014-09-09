@@ -1,6 +1,6 @@
 'use strict';
 
-
+var View = require('./view.js');
 
 var SettingsController = function(view){
     console.log("SettingsController");
