@@ -1,41 +1,17 @@
 'use strict';
 
 var View = require('./view.js');
+var Airbex = require('../../lib/Airbex.js');
 
-var SettingsController = function(view){
-    console.log("SettingsController");
-    this.view = view;
-    this.model = {}
-    
-    this.retrieveSettings = function (){
-        var apiKey = localStorage.getItem("apikey");
-        
-        var webSocketUrl = localStorage.getItem("webSocketUrl");
-        if(webSocketUrl === undefined){
-            webSocketUrl = app.websocketUrl; 
-        }
-        return {apiKey: apiKey, webSocketUrl:webSocketUrl}
-    }
-    
-    this.saveSettings = function (model){
-        localStorage.setItem("apikey", model.apiKey);
-        localStorage.setItem("webSocketUrl", model.webSocketUrl);
-    }
-    
-    this.model = this.retrieveSettings();
-    view.render(this.model);
-    
-    this.view.$form.on('submit', function(e) {
-        var model = this.view.getModel();
-        this.saveSettings(model);
-        
-        e.preventDefault()
-    })
-};
+var Settings = require('../settings/settings.js')
+var Status = require('../status/status.js')
+var Balances = require('../balances/balances.js')
 
-var Controller = function(view){
+var Controller = function(){
     
-    this.settings = new  SettingsController(view.settings)
+    this.settings = new Settings()
+    this.status = new Status()
+    this.balances = new Balances()
 };
 
 var app = {};
@@ -45,7 +21,7 @@ app.websocketUrl = "http://localhost:5071";
 app.init = function () {
     
     this.view = View;
-    this.controller = new Controller(this.view);
+    this.controller = new Controller();
     var settings = this.controller.settings.model;
     this.api = new Airbex.WebSocketClient({url:settings.webSocketUrl, apiKey:settings.apiKey});
     
@@ -60,18 +36,18 @@ app.init = function () {
 
 app.onConnectError = function (){
     console.log('connect_error');
-    app.view.status.renderError()
+    app.controller.status.view.renderError()
 }
 
 app.onError = function (error){
     console.log('error ', error.description.message);
-    app.view.status.renderError()
+    app.controller.status.view.renderError()
 }
 
 app.onConnected = function (){
     console.log('socketioClient connect');
     var api = app.api;
-    app.view.status.renderConnected()
+    app.controller.status.view.renderConnected()
     
     api.getMarkets()
     .then(function(markets){
@@ -87,7 +63,7 @@ app.onConnected = function (){
     
     api.getBalances()
     .then(function(balances){
-        app.view.balances.render(balances);
+        app.controller.balances.setModel(balances);
     })
     .fail(function(error){
         app.view.balances.render(null, error);
@@ -104,7 +80,4 @@ app.getDepths = function (markets){
 }
 
 app.init();
-
-
-
 

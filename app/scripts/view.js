@@ -5,39 +5,6 @@ $('body').scrollspy({
     offset: 60
 });
 
-var StatusView = function(){
-    $(".ws-status").hide();
-    $(".ws-status-connecting").show();
-    
-    this.renderConnected = function(){
-        $(".ws-status").hide();
-        $(".ws-status-connected").show();
-    }
-
-    this.renderError = function(){
-        $(".ws-status").hide();
-        $(".ws-status-error").show();
-    }
-}
-
-var SettingsView = function(){
-    
-    this.$form = $("#settings");
-    this.$apiKey = this.$form.find('.form-group.apikey');
-    this.$webSocketUrl = this.$form.find('.form-group.webSocketUrl');
-    
-    this.render = function(model){
-        this.$apiKey.find('input').val(model.apiKey);
-        this.$webSocketUrl.find('input').val(model.webSocketUrl);
-    }
-    
-    this.getModel = function(){
-        var apiKey = this.$apiKey.find('input').val();
-        var webSocketUrl = this.$webSocketUrl.find('input').val();
-        return {apiKey: apiKey, webSocketUrl: webSocketUrl}
-    }
-}
-
 /// Market Summary View
 var MarketSummaryView = function(){
     this.render = function (markets) {
@@ -94,29 +61,7 @@ var CurrenciesView = function(){
     }
 };
 
-//Balances View
-var BalancesView = function(){
-    this.$alertBalances = $("#alert-balances");
-    
-    this.render = function (balances, error) {
-        $(".balances-tbody").empty();
 
-        if(balances){
-            this.$alertBalances.hide()
-            $.each(balances, function(i, balance) {
-                $('<tr>').append(
-                        $('<td>').text(balance.currency),
-                        $('<td>').text(balance.balance),
-                        $('<td>').text(balance.hold),
-                        $('<td>').text(balance.available)
-                ).appendTo($(".balances-tbody"));
-            });
-        } else {
-            this.$alertBalances.html("Error: " + error.name)
-            this.$alertBalances.show()
-        }
-    }
-};
 
 //Market Depth View
 var DepthView = function(){
@@ -162,11 +107,8 @@ var DepthView = function(){
 //View container
 var View = 
 {
-        settings: new SettingsView(),
-        status: new StatusView(),
         marketSummary: new MarketSummaryView(),
         currencies: new CurrenciesView(),
-        balances: new BalancesView(),
         depth: new DepthView()
 };
 
