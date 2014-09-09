@@ -6,12 +6,14 @@ var Airbex = require('../../lib/Airbex.js');
 var Settings = require('../settings/settings.js')
 var Status = require('../status/status.js')
 var Balances = require('../balances/balances.js')
+var Currencies = require('../currencies/currencies.js')
 
 var Controller = function(){
     
     this.settings = new Settings()
     this.status = new Status()
     this.balances = new Balances()
+    this.currencies = new Currencies()
 };
 
 var app = {};
@@ -58,7 +60,7 @@ app.onConnected = function (){
     
     api.getCurrencies()
     .then(function(currencies){
-        app.view.currencies.render(currencies);
+        app.controller.currencies.setModel(currencies);
     });
     
     api.getBalances()
