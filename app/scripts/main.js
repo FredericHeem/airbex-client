@@ -43,16 +43,18 @@ var app = {};
 app.websocketUrl = "http://localhost:5071";
 
 app.init = function () {
-    this.api = new Airbex.WebSocketClient({url:app.websocketUrl});
+    
+    this.view = View;
+    this.controller = new Controller(this.view);
+    var settings = this.controller.settings.model;
+    this.api = new Airbex.WebSocketClient({url:settings.webSocketUrl, apiKey:settings.apiKey});
     
     this.api.addListener('connected', app.onConnected);
     this.api.addListener('connect_error', app.onConnectError);
     this.api.addListener('error', app.onError);
     this.api.start();
     
-    this.view = View;
-    
-    this.controller = new Controller(this.view);
+
     this.bom = {};
 }
 

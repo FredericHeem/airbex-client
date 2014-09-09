@@ -103,16 +103,12 @@ var BalancesView = function(){
 
         if(balances){
             this.$alertBalances.hide()
-            $.each(balances, function(i, currency) {
+            $.each(balances, function(i, balance) {
                 $('<tr>').append(
-                        $('<td>').text(currency.name),
-                        $('<td>').text(currency.id),
-                        $('<td>').text(currency.fiat),
-                        $('<td>').text(currency.scale),
-                        $('<td>').text(currency.scale_display),
-                        $('<td>').text(currency.withdraw_min),
-                        $('<td>').text(currency.withdraw_max),
-                        $('<td>').text(currency.withdraw_fee)
+                        $('<td>').text(balance.currency),
+                        $('<td>').text(balance.balance),
+                        $('<td>').text(balance.hold),
+                        $('<td>').text(balance.available)
                 ).appendTo($(".balances-tbody"));
             });
         } else {
