@@ -50,7 +50,10 @@ module.exports = function (grunt) {
             },
             styles: {
                 files: ['<%= config.app %>/styles/{,*/}*.css'],
-                tasks: ['concat:development_css']
+                tasks: ['concat:development_css'],
+                options: {
+                    livereload: true
+                }
             },
             livereload: {
                 options: {
@@ -82,7 +85,7 @@ module.exports = function (grunt) {
             options: {
                 port: 9000,
                 open: true,
-                livereload: 35729,
+                livereload: 35730,
                 // Change this to '0.0.0.0' to access the server from outside
                 hostname: 'localhost'
             },
@@ -90,7 +93,6 @@ module.exports = function (grunt) {
                 options: {
                     middleware: function(connect) {
                         return [
-                            connect.static('.tmp'),
                             connect().use('/bower_components', connect.static('./bower_components')),
                             connect.static(config.app),
                             connect.static('browser/dist')
@@ -104,7 +106,6 @@ module.exports = function (grunt) {
                     port: 9001,
                     middleware: function(connect) {
                         return [
-                            connect.static('.tmp'),
                             connect.static('test'),
                             connect().use('/bower_components', connect.static('./bower_components')),
                             connect.static(config.app),
@@ -127,13 +128,11 @@ module.exports = function (grunt) {
                 files: [{
                     dot: true,
                     src: [
-                        '.tmp',
                         '<%= config.dist %>/*',
                         '!<%= config.dist %>/.git*'
                     ]
                 }]
-            },
-            server: '.tmp'
+            }
         },
 
         // Make sure code styles are up to par and there are no obvious mistakes
@@ -221,7 +220,6 @@ module.exports = function (grunt) {
         }
 
         grunt.task.run([
-            'clean:server',
             'shell:browserify',
             'concurrent:server',
             'connect:livereload',
@@ -237,7 +235,6 @@ module.exports = function (grunt) {
     grunt.registerTask('test', function (target) {
         if (target !== 'watch') {
             grunt.task.run([
-                'clean:server',
                 'concurrent:test'
             ]);
         }

@@ -13,13 +13,14 @@ app.init = function () {
     this.api.start();
     
     this.view = View;
-    this.view.init();
+    //this.view.init();
+    
+    this.controller = Controller;
     this.bom = {};
-    this.view.status.renderConnecting()
 }
 
 app.onConnectError = function (){
-    console.log('connect_error ');
+    console.log('connect_error');
     app.view.status.renderError()
 }
 
@@ -64,5 +65,16 @@ app.getDepths = function (markets){
 }
 
 app.init();
+
+var StatusController = function(){
+    console.log("StatusController");
+};
+
+var Controller = {
+        status: new StatusController()
+};
+
+Controller.init = function(){
+}
 
 
