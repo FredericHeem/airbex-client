@@ -7,7 +7,6 @@ var config = require('./configTest.js')();
 var debug = require('debug')('WebSocket');
 var Airbex = require('../lib/Airbex');
 
-
 describe('WebSocket', function () {
     "use strict";
 

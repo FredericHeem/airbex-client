@@ -15,24 +15,23 @@ app.init = function () {
     this.view = View;
     this.view.init();
     this.bom = {};
-    this.$wsStatus = $(".ws-status");
-    this.$wsStatus.text("Idle");
+    this.view.status.renderConnecting()
 }
 
 app.onConnectError = function (){
     console.log('connect_error ');
-    app.$wsStatus.text('Error');
+    app.view.status.renderError()
 }
 
 app.onError = function (error){
     console.log('error ', error.description.message);
-    app.$wsStatus.text('Error');
+    app.view.status.renderError()
 }
 
 app.onConnected = function (){
     console.log('socketioClient connect');
     var api = app.api;
-    app.$wsStatus.text("Connected");
+    app.view.status.renderConnected()
     
     api.getMarkets()
     .then(function(markets){
@@ -59,7 +58,6 @@ app.getDepths = function (markets){
     $.each(markets, function(i, market){
         app.api.getDepth(market.id)
         .done(function(depth){
-            //console.log("getDepths ", depth)
             app.view.depth.render(depth);
         })
     })

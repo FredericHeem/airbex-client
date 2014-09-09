@@ -28,31 +28,6 @@ module.exports = function (grunt) {
                 command: './node_modules/browserify/bin/cmd.js lib/Airbex.js --standalone <%= pkg.name %> -o browser/dist/<%= pkg.name %>.standalone.js'
             }
         },
-//        browserify: {
-//          standalone: {
-//            src: [ 'lib/Airbex.js' ],
-//            dest: './browser/dist/<%= pkg.name %>.standalone.js',
-//            browserifyOptions: {
-//              standalone: 'Airbex'
-//            }
-//          },
-//          require: {
-//            src: [ 'lib/Airbex.js' ],
-//            dest: './browser/dist/<%= pkg.name %>.require.js',
-//            browserifyOptions: {
-//              alias: [ './lib/Airbex:' ]
-//            }
-//          },
-//          tests: {
-//            src: [ 'browser/test/suite.js' ],
-//            dest: './browser/test/browserified_tests.js',
-//            options: {
-//              external: [ './<%= pkg.name %>.js' ],
-//              // Embed source map for tests
-//              debug: true
-//            }
-//          }
-//        },
         // Watches files for changes and runs tasks based on the changed files
         watch: {
             bower: {

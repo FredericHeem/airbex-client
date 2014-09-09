@@ -5,6 +5,25 @@ $('body').scrollspy({
     offset: 60
 });
 
+var StatusView = function(){
+    $(".ws-status-connecting").show();
+}
+
+StatusView.renderConnecting = function(){
+    $(".ws-status").hide();
+    $(".ws-status-connecting").show();
+}
+
+StatusView.renderConnected = function(){
+    $(".ws-status").hide();
+    $(".ws-status-connected").show();
+}
+
+StatusView.renderError = function(){
+    $(".ws-status").hide();
+    $(".ws-status-error").show();
+}
+
 /// Market Summary View
 var MarketSummaryView = {};
 
@@ -14,12 +33,12 @@ MarketSummaryView.render = function (markets) {
 
         $("#alert-markets").hide()
         $.each(markets, function(i, market) {
-            
+
             $('<li>').append(
                     $('<a>').text(market.id).attr('href', '#sec-market-' + market.id)
-                    
+
             ).appendTo($(".market-submenu"));
-            
+
             $('<tr>').append(
                     $('<td>').text(market.id),
                     $('<td>').text(market.bid || 'N/A'),
@@ -30,21 +49,21 @@ MarketSummaryView.render = function (markets) {
                     $('<td>').text(market.last || 'N/A')
             ).appendTo($(".markets-tbody"));
         });
-         
+
     } else {
 
     }
 }
 
-// Currencies View
+//Currencies View
 var CurrenciesView = {};
 
 CurrenciesView.render = function (currencies) {
     $(".currencies-tbody").empty();
-    
+
     if(currencies){
         $.each(currencies, function(i, currency) {
-            var $tr = $('<tr>').append(
+            $('<tr>').append(
                     $('<td>').text(currency.name),
                     $('<td>').text(currency.id),
                     $('<td>').text(currency.fiat),
@@ -59,7 +78,7 @@ CurrenciesView.render = function (currencies) {
     }
 }
 
-// Balances View
+//Balances View
 var BalancesView = {};
 BalancesView.init = function(){
     this.$alertBalances = $("#alert-balances");
@@ -67,7 +86,7 @@ BalancesView.init = function(){
 
 BalancesView.render = function (balances, error) {
     $(".balances-tbody").empty();
-    
+
     if(balances){
         BalancesView.$alertBalances.hide()
         $.each(balances, function(i, currency) {
@@ -88,7 +107,7 @@ BalancesView.render = function (balances, error) {
     }
 }
 
-// Market Depth View
+//Market Depth View
 var DepthView = {};
 
 DepthView.init = function(){
@@ -100,47 +119,48 @@ DepthView.render = function (depth) {
         var marketId = depth.marketId;
         var orderBookSelector = "order-book-container-" + marketId
         var $orderBook = $("#" + orderBookSelector);
-        if($orderBook.size() == 0){
-            
+        if($orderBook.size() === 0){
+
             $orderBook = DepthView.$orderBookContainer.clone();
             $orderBook.attr('id', orderBookSelector);
             $orderBook.insertBefore(DepthView.$orderBookContainer);
         }
         $orderBook.find(".market-id").text(marketId).parent().parent().attr('id', 'sec-market-' + marketId);
-        
+
         if(depth.bids){
             $.each(depth.bids, function(i, bid) {
-                var $tr = $('<tr>').append(
+                $('<tr>').append(
                         $('<td>').text(bid[0]),
                         $('<td>').text(bid[1]))
-                .appendTo($orderBook.find(".bids-tbody"));
+                        .appendTo($orderBook.find(".bids-tbody"));
             });
         }
         if(depth.asks){
             $.each(depth.asks, function(i, ask) {
-                var $tr = $('<tr>').append(
+                $('<tr>').append(
                         $('<td>').text(ask[0]),
                         $('<td>').text(ask[1]))
-                .appendTo($orderBook.find(".asks-tbody"));
+                        .appendTo($orderBook.find(".asks-tbody"));
             });
         }
-        
+
         $('body').scrollspy('refresh'); 
-        
+
     } else {
     }
-}
+};
 
-// View container
+//View container
 var View = 
 {
+        status: StatusView,
         marketSummary: MarketSummaryView,
         currencies: CurrenciesView,
         balances: BalancesView,
         depth: DepthView
-}
+};
 
 View.init = function(){
     View.balances.init();
     View.depth.init();
-}
+};
