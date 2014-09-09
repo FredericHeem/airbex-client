@@ -13,7 +13,6 @@ app.init = function () {
     this.api.start();
     
     this.view = View;
-    //this.view.init();
     
     this.controller = Controller;
     this.bom = {};
@@ -66,12 +65,40 @@ app.getDepths = function (markets){
 
 app.init();
 
-var StatusController = function(){
-    console.log("StatusController");
+var SettingsController = function(){
+    console.log("SettingsController");
+    
+    var $form = $("#settings");
+    var $apiKey = $form.find('.form-group.apikey');
+    var $webSocketUrl = $form.find('.form-group.webSocketUrl');
+    
+    function retrieveSettings(){
+        var apiKey = localStorage.getItem("apikey");
+        $apiKey.find('input').val(apiKey);
+        
+        var webSocketUrl = localStorage.getItem("webSocketUrl");
+        if(webSocketUrl === undefined){
+            webSocketUrl = app.websocketUrl; 
+        }
+        $webSocketUrl.find('input').val(webSocketUrl);
+    }
+    
+    retrieveSettings();
+    
+    $form.on('submit', function(e) {
+
+        var apiKey = $apiKey.find('input').val();
+        localStorage.setItem("apikey",apiKey);
+        
+        var webSocketUrl = $webSocketUrl.find('input').val();
+        localStorage.setItem("webSocketUrl",webSocketUrl);
+        e.preventDefault()
+        console.log("settings");
+    })
 };
 
 var Controller = {
-        status: new StatusController()
+        status: new SettingsController()
 };
 
 Controller.init = function(){
