@@ -1,6 +1,8 @@
+var template = require('./settings.html')
+
 var SettingsView = function(){
-    
-    this.$form = $("#settings");
+    this.$el = $('#settings').html(template())
+    this.$form = this.$el.find("#form-settings");
     this.$apiKey = this.$form.find('.form-group.apikey');
     this.$webSocketUrl = this.$form.find('.form-group.webSocketUrl');
     

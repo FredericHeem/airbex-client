@@ -27,6 +27,7 @@
     "jshint-stylish": "~0.1.5",
     "browserify": "5.11.1",
     "grunt-browserify": "x",
+    "browserify-ejs": "0.0.2",
     "grunt-shell": "~0.6.4",
     "konphyg": "1.2.x",
     "request": "~2.12.0",

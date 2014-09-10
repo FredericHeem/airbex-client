@@ -58,28 +58,7 @@
             </nav>
             <div class="col-md-10">
                 <section id="secSettings">
-                    <h2>Settings</h2>
-                    <div class="row">
-                        <form class="col-md-8" id="settings">
-                            <div class="form-group webSocketUrl">
-                                <label class="control-label">Web
-                                    Socket Url</label> <input type="text"
-                                    name="webSocketUrl" class="form-control">
-                                <span class="help-block"></span>
-                            </div>
-                            <div class="form-group apikey">
-                                <label class="control-label">API
-                                    Key</label> <input type="text" name="apikey"
-                                    class="form-control"> <span
-                                    class="help-block"></span>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit"
-                                    class="btn btn-success btn-large">Save
-                                    Settings</button>
-                            </div>
-                        </form>
-                    </div>
+                    <div id="settings"></div>
                 </section>
 
                 <section id="secMarkets">
@@ -136,39 +115,11 @@
                 </section>
 
                 <section id="secCurrencies">
-                    <h2>Currencies</h2>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Id</th>
-                                <th>Fiat</th>
-                                <th>Scale</th>
-                                <th>Scale Display</th>
-                                <th>Withdraw Min</th>
-                                <th>Withdraw Max</th>
-                                <th>Withdraw Fee</th>
-                            </tr>
-                        </thead>
-                        <tbody class="currencies-tbody">
-                        </tbody>
-                    </table>
+                    <div id="currencies"></div>
                 </section>
+                
                 <section id="secBalances">
-                    <h2>Balances</h2>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Currency</th>
-                                <th>Balance</th>
-                                <th>Reserved</th>
-                                <th>Available</th>
-                            </tr>
-                        </thead>
-                        <tbody class="balances-tbody">
-                        </tbody>
-                    </table>
-                    <div id="alert-balances" class="alert alert-warning"></div>
+                    <div id="balances"></div>
                 </section>
             </div>
         </div>

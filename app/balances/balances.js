@@ -1,23 +1,26 @@
-//Balances View
+var template = require('./balances.html')
+
 var BalancesView = function(){
-    this.$alertBalances = $("#alert-balances");
+    var $el = $('#balances').html(template())
+    var $alertBalances = $el.find("#alert-balances");
+    var $balances_tbody = $el.find(".balances-tbody");
     
     this.render = function (balances, error) {
-        $(".balances-tbody").empty();
+        $balances_tbody.empty();
 
         if(balances){
-            this.$alertBalances.hide()
+            $alertBalances.hide()
             $.each(balances, function(i, balance) {
                 $('<tr>').append(
                         $('<td>').text(balance.currency),
                         $('<td>').text(balance.balance),
                         $('<td>').text(balance.hold),
                         $('<td>').text(balance.available)
-                ).appendTo($(".balances-tbody"));
+                ).appendTo($balances_tbody);
             });
         } else {
-            this.$alertBalances.html("Error: " + error.name)
-            this.$alertBalances.show()
+            $alertBalances.html("Error: " + error.name)
+            $alertBalances.show()
         }
     }
 };

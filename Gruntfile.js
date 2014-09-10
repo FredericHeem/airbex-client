@@ -30,7 +30,8 @@ module.exports = function (grunt) {
         },
         browserify: {
             options: {
-                detectGlobals: false
+                detectGlobals: false,
+                transform: ['browserify-ejs']
             },
 
             development: {
@@ -249,11 +250,6 @@ module.exports = function (grunt) {
             'watch'
             
         ]);
-    });
-
-    grunt.registerTask('server', function (target) {
-        grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
-        grunt.task.run([target ? ('serve:' + target) : 'serve']);
     });
 
     grunt.registerTask('test', function (target) {

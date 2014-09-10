@@ -1,7 +1,11 @@
-//Currencies View
+var template = require('./currencies.html')
+
 var CurrenciesView = function(){
+    var $el = $('#currencies').html(template())
+    var $currencies_tbody = $el.find(".currencies-tbody");
+    
     this.render = function (currencies) {
-        $(".currencies-tbody").empty();
+        $currencies_tbody.empty();
 
         if(currencies){
             $.each(currencies, function(i, currency) {
@@ -14,7 +18,7 @@ var CurrenciesView = function(){
                         $('<td>').text(currency.withdraw_min),
                         $('<td>').text(currency.withdraw_max),
                         $('<td>').text(currency.withdraw_fee)
-                ).appendTo($(".currencies-tbody"));
+                ).appendTo($currencies_tbody);
             });
         } else {
         }
