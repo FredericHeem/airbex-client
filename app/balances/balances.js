@@ -5,23 +5,22 @@ var BalancesView = function(){
     var $alertBalances = $el.find("#alert-balances");
     var $balances_tbody = $el.find(".balances-tbody");
     
-    this.render = function (balances, error) {
+    this.renderError = function(error){
         $balances_tbody.empty();
-
-        if(balances){
-            $alertBalances.hide()
-            $.each(balances, function(i, balance) {
-                $('<tr>').append(
-                        $('<td>').text(balance.currency),
-                        $('<td>').text(balance.balance),
-                        $('<td>').text(balance.hold),
-                        $('<td>').text(balance.available)
-                ).appendTo($balances_tbody);
-            });
-        } else {
-            $alertBalances.html("Error: " + error.name)
-            $alertBalances.show()
-        }
+        $alertBalances.html("Error: " + error.message)
+        $alertBalances.show()
+    }
+    this.render = function (balances) {
+        $balances_tbody.empty();
+        $alertBalances.hide()
+        $.each(balances, function(i, balance) {
+            $('<tr>').append(
+                    $('<td>').text(balance.currency),
+                    $('<td>').text(balance.balance),
+                    $('<td>').text(balance.hold),
+                    $('<td>').text(balance.available)
+            ).appendTo($balances_tbody);
+        });
     }
 };
 
@@ -38,7 +37,7 @@ var BalancesController = function(app, eventEmitter){
             me.setModel(balances);
         })
         .fail(function(error){
-            view.balances.render(null, error);
+            view.renderError(error);
         })
     }
     

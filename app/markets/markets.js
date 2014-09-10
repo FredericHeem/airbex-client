@@ -4,8 +4,16 @@ var MarketsView = function(){
     
     var $el = $('#markets').html(template())
     var $markets_tbody = $el.find(".markets-tbody");
+    var $alert_markets = $el.find("#alert-markets");
+    
+    this.renderError = function (error) {
+        $markets_tbody.empty();
+        $alert_markets.html(error.message);
+        $alert_markets.show();
+    }
     
     this.render = function (markets) {
+        $alert_markets.hide();
         $markets_tbody.empty();
         if(markets){
 
@@ -44,7 +52,11 @@ var MarketsController = function(app, eventEmitter){
         .then(function(markets){
             me.setModel(markets);
             eventEmitter.emit('markets', markets)
-        });
+        })
+        .fail(function(error){
+            console.log("MarketsController error ", error);
+            view.renderError(error);
+        })
     }
     
     this.setModel = function (markets){

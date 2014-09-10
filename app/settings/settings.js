@@ -1,5 +1,8 @@
 var template = require('./settings.html')
 
+var webSocketUrlDefault = "http://localhost:5071";
+
+
 var SettingsView = function(){
     var $el = $('#settings').html(template())
     var $form = $el.find("#form-settings");
@@ -31,8 +34,8 @@ var SettingsController = function(eventEmitter){
         var apiKey = localStorage.getItem("apikey");
         
         var webSocketUrl = localStorage.getItem("webSocketUrl");
-        if(webSocketUrl === undefined){
-            webSocketUrl = app.websocketUrl; 
+        if(webSocketUrl === undefined || webSocketUrl === ''){
+            webSocketUrl = webSocketUrlDefault; 
         }
         var settings = {apiKey: apiKey, webSocketUrl:webSocketUrl}
         view.render(settings);
@@ -41,6 +44,9 @@ var SettingsController = function(eventEmitter){
     
     this.saveSettings = function (model){
         localStorage.setItem("apikey", model.apiKey);
+        if(model.webSocketUrl === ''){
+            model.webSocketUrl = webSocketUrlDefault;
+        }
         localStorage.setItem("webSocketUrl", model.webSocketUrl);
     }
     
