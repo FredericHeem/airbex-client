@@ -1,4 +1,5 @@
 var template = require('./balances.html')
+var rowTemplate = require('./balance-row.html')
 
 var BalancesView = function(){
     var $el = $('#balances').html(template())
@@ -10,17 +11,14 @@ var BalancesView = function(){
         $alertBalances.html("Error: " + error.message)
         $alertBalances.show()
     }
+    
     this.render = function (balances) {
         $balances_tbody.empty();
-        $alertBalances.hide()
-        $.each(balances, function(i, balance) {
-            $('<tr>').append(
-                    $('<td>').text(balance.currency),
-                    $('<td>').text(balance.balance),
-                    $('<td>').text(balance.hold),
-                    $('<td>').text(balance.available)
-            ).appendTo($balances_tbody);
-        });
+        $alertBalances.hide();
+        
+        $balances_tbody.html($.map(balances, function(balance) {
+            return rowTemplate({balance:balance})
+        }))
     }
 };
 
