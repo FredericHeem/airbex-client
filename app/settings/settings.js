@@ -26,9 +26,6 @@ var SettingsController = function(eventEmitter){
     var model = {};
     var view = new SettingsView();
     var me = this;
-    this.getModel = function(){
-        return model;
-    }
     
     this.retrieveSettings = function (){
         var apiKey = localStorage.getItem("apikey");
@@ -37,7 +34,9 @@ var SettingsController = function(eventEmitter){
         if(webSocketUrl === undefined){
             webSocketUrl = app.websocketUrl; 
         }
-        return {apiKey: apiKey, webSocketUrl:webSocketUrl}
+        var settings = {apiKey: apiKey, webSocketUrl:webSocketUrl}
+        view.render(settings);
+        eventEmitter.emit("settings", settings);
     }
     
     this.saveSettings = function (model){
@@ -45,12 +44,10 @@ var SettingsController = function(eventEmitter){
         localStorage.setItem("webSocketUrl", model.webSocketUrl);
     }
     
-    model = this.retrieveSettings();
-    view.render(model);
-    
     view.onSubmit(function(e) {
         model = view.getModel();
         me.saveSettings(model);
+        eventEmitter.emit("settings", model);
         e.preventDefault()
     })
 };

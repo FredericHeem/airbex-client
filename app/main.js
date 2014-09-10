@@ -23,31 +23,39 @@ var App = function(){
     var EventEmitter = require('events').EventEmitter;
     var eventEmitter = new EventEmitter();
     
-    this.controller = new Controller(this, eventEmitter);
+    eventEmitter.addListener('settings', onSettings.bind(this));
+    
+    var controller = new Controller(this, eventEmitter);
     
     this.getApi = function(){
         return this.api;
     }
     
-    this.webSocketStart = function () {
-        var settings = this.controller.settings.getModel();
-        this.api = new Airbex.WebSocketClient({url:settings.webSocketUrl, apiKey:settings.apiKey});
-        
-        this.api.addListener('connected', onConnected.bind(this));
-        this.api.addListener('connect_error', onConnectError.bind(this));
-        this.api.addListener('error', onError.bind(this));
-        this.api.start();
+    this.start = function(){
+        controller.settings.retrieveSettings();
+    }
+    
+    function webSocketStart(me, settings) {
+        me.api = new Airbex.WebSocketClient({url:settings.webSocketUrl, apiKey:settings.apiKey});
+        me.api.addListener('connected', onConnected.bind(me));
+        me.api.addListener('connect_error', onConnectError.bind(me));
+        me.api.addListener('error', onError.bind(me));
+        me.api.start();
+    }
+    
+    function onSettings(settings){
+        console.log('onSettings');
+        webSocketStart(this, settings);
     }
     
     function onConnectError(){
         console.log('connect_error');
-        this.controller.status.view.renderError()
-        this.controller.status.setModel({state:"error"});
+        controller.status.setModel({state:"error"});
     }
 
     function onError(error){
         console.log('error ', error.description.message);
-        this.controller.status.setModel({state:"error"});
+        controller.status.setModel({state:"error"});
     }
 
     function onConnected(){
@@ -57,5 +65,5 @@ var App = function(){
 };
 
 var app = new App();
-app.webSocketStart();
+app.start();
 
