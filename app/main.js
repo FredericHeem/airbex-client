@@ -2,6 +2,7 @@
 
 var Airbex = require('../lib/Airbex.js');
 
+var SideBar = require('./sidebar/sidebar.js')
 var Markets = require('./markets/markets.js')
 var Settings = require('./settings/settings.js')
 var Status = require('./status/status.js')
@@ -11,6 +12,7 @@ var Depth = require('./depth/depth.js')
 var HomeView = require('./home/home.js');
 
 var Controller = function(app, eventEmitter){
+    this.sidebar = new SideBar(app, eventEmitter)
     this.settings = new Settings(eventEmitter)
     this.status = new Status(eventEmitter)
     this.balances = new Balances(app, eventEmitter)
