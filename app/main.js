@@ -11,7 +11,6 @@ var Depth = require('./depth/depth.js')
 var HomeView = require('./home/home.js');
 
 var Controller = function(){
-    
     this.settings = new Settings()
     this.status = new Status()
     this.balances = new Balances()
@@ -20,66 +19,65 @@ var Controller = function(){
     this.depth = new Depth()
 };
 
-var app = {};
-
-app.websocketUrl = "http://localhost:5071";
-
-app.init = function () {
-    
+var App = function(){
     this.controller = new Controller();
-    var settings = this.controller.settings.model;
-    this.api = new Airbex.WebSocketClient({url:settings.webSocketUrl, apiKey:settings.apiKey});
     
-    this.api.addListener('connected', app.onConnected);
-    this.api.addListener('connect_error', app.onConnectError);
-    this.api.addListener('error', app.onError);
-    this.api.start();
-}
-
-app.onConnectError = function (){
-    console.log('connect_error');
-    app.controller.status.view.renderError()
-    app.controller.status.setModel({state:"error"});
-}
-
-app.onError = function (error){
-    console.log('error ', error.description.message);
-    app.controller.status.setModel({state:"error"});
-}
-
-app.onConnected = function (){
-    console.log('socketioClient connect');
-    var api = app.api;
-    app.controller.status.setModel({state:"connected"});
+    this.webSocketStart = function () {
+        var settings = this.controller.settings.model;
+        this.api = new Airbex.WebSocketClient({url:settings.webSocketUrl, apiKey:settings.apiKey});
+        
+        this.api.addListener('connected', onConnected.bind(this));
+        this.api.addListener('connect_error', onConnectError.bind(this));
+        this.api.addListener('error', onError.bind(this));
+        this.api.start();
+    }
     
-    api.getMarkets()
-    .then(function(markets){
-        app.controller.markets.setModel(markets);
-        app.getDepths(markets)
-    });
-    
-    api.getCurrencies()
-    .then(function(currencies){
-        app.controller.currencies.setModel(currencies);
-    });
-    
-    api.getBalances()
-    .then(function(balances){
-        app.controller.balances.setModel(balances);
-    })
-    .fail(function(error){
-        app.view.balances.render(null, error);
-    })
-}
+    function onConnectError(){
+        console.log('connect_error');
+        this.controller.status.view.renderError()
+        this.controller.status.setModel({state:"error"});
+    }
 
-app.getDepths = function (markets){
-    $.each(markets, function(i, market){
-        app.api.getDepth(market.id)
-        .done(function(depth){
-            app.controller.depth.setModel(depth);
+    function onError(error){
+        console.log('error ', error.description.message);
+        this.controller.status.setModel({state:"error"});
+    }
+
+    function onConnected(){
+        console.log('socketioClient connect');
+        var api = this.api;
+        this.controller.status.setModel({state:"connected"});
+        var me = this;
+        api.getMarkets()
+        .then(function(markets){
+            me.controller.markets.setModel(markets);
+            getDepths(me, markets)
+        });
+        
+        api.getCurrencies()
+        .then(function(currencies){
+            me.controller.currencies.setModel(currencies);
+        });
+        
+        api.getBalances()
+        .then(function(balances){
+            me.controller.balances.setModel(balances);
         })
-    })
-}
+        .fail(function(error){
+            me.view.balances.render(null, error);
+        })
+    }
 
-app.init();
+    function getDepths(me, markets){
+        $.each(markets, function(i, market){
+            me.api.getDepth(market.id)
+            .done(function(depth){
+                me.controller.depth.setModel(depth);
+            })
+        })
+    }
+};
+
+var app = new App();
+app.webSocketStart();
 
