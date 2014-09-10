@@ -30,7 +30,7 @@ var App = function(){
     }
     
     this.webSocketStart = function () {
-        var settings = this.controller.settings.model;
+        var settings = this.controller.settings.getModel();
         this.api = new Airbex.WebSocketClient({url:settings.webSocketUrl, apiKey:settings.apiKey});
         
         this.api.addListener('connected', onConnected.bind(this));

@@ -19,8 +19,12 @@ var SettingsView = function(){
 }
 
 var SettingsController = function(eventEmitter){
-    this.view = new SettingsView();
-    this.model = {}
+    var model = {};
+    var view = new SettingsView();
+    
+    this.getModel = function(){
+        return model;
+    }
     
     this.retrieveSettings = function (){
         var apiKey = localStorage.getItem("apikey");
@@ -37,11 +41,11 @@ var SettingsController = function(eventEmitter){
         localStorage.setItem("webSocketUrl", model.webSocketUrl);
     }
     
-    this.model = this.retrieveSettings();
-    this.view.render(this.model);
+    model = this.retrieveSettings();
+    view.render(model);
     
-    this.view.$form.on('submit', function(e) {
-        var model = this.view.getModel();
+    view.$form.on('submit', function(e) {
+        model = view.getModel();
         this.saveSettings(model);
         
         e.preventDefault()
