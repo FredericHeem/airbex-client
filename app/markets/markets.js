@@ -1,6 +1,12 @@
+var template = require('./markets.html')
+
 var MarketsView = function(){
+    
+    var $el = $('#markets').html(template())
+    var $markets_tbody = $el.find(".markets-tbody");
+    
     this.render = function (markets) {
-        $(".markets-tbody").empty();
+        $markets_tbody.empty();
         if(markets){
 
             $("#alert-markets").hide()
@@ -19,7 +25,7 @@ var MarketsView = function(){
                         $('<td>').text(market.low || 'N/A'),
                         $('<td>').text(market.volume || 'N/A'),
                         $('<td>').text(market.last || 'N/A')
-                ).appendTo($(".markets-tbody"));
+                ).appendTo($markets_tbody);
             });
 
         } else {
