@@ -25,13 +25,26 @@ var BalancesView = function(){
     }
 };
 
-var BalancesController = function(){
-    this.view = new BalancesView();
-    this.model = {}
+var BalancesController = function(app, eventEmitter){
+    var view = new BalancesView();
+    var model = {}
+    var me = this;
+    eventEmitter.addListener('connected', onConnected.bind(this));
+    
+    function onConnected(){
+        console.log("BalancesController onConnected");
+        app.getApi().getBalances()
+        .then(function(balances){
+            me.setModel(balances);
+        })
+        .fail(function(error){
+            view.balances.render(null, error);
+        })
+    }
     
     this.setModel = function (balances){
-        this.model = balances;
-        this.view.render(balances);
+        model = balances;
+        view.render(balances);
     }
 }
 

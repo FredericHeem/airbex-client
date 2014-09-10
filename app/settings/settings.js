@@ -18,8 +18,7 @@ var SettingsView = function(){
     }
 }
 
-var SettingsController = function(){
-    console.log("SettingsController");
+var SettingsController = function(eventEmitter){
     this.view = new SettingsView();
     this.model = {}
     

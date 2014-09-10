@@ -22,9 +22,15 @@ var StatusView = function(){
     }
 }
 
-var StatusController = function(){
+var StatusController = function(eventEmitter){
     this.view = new StatusView();
     this.model = {};
+    
+    eventEmitter.addListener('connected', onConnected.bind(this));
+    
+    function onConnected(){
+        this.setModel({state:"connected"});
+    }
     
     this.setModel = function(model){
         this.model = model;

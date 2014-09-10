@@ -10,17 +10,24 @@ var Currencies = require('./currencies/currencies.js')
 var Depth = require('./depth/depth.js')
 var HomeView = require('./home/home.js');
 
-var Controller = function(){
-    this.settings = new Settings()
-    this.status = new Status()
-    this.balances = new Balances()
-    this.currencies = new Currencies()
-    this.markets = new Markets()
-    this.depth = new Depth()
+var Controller = function(app, eventEmitter){
+    this.settings = new Settings(eventEmitter)
+    this.status = new Status(eventEmitter)
+    this.balances = new Balances(app, eventEmitter)
+    this.currencies = new Currencies(app, eventEmitter)
+    this.markets = new Markets(app, eventEmitter)
+    this.depth = new Depth(app, eventEmitter)
 };
 
 var App = function(){
-    this.controller = new Controller();
+    var EventEmitter = require('events').EventEmitter;
+    var eventEmitter = new EventEmitter();
+    
+    this.controller = new Controller(this, eventEmitter);
+    
+    this.getApi = function(){
+        return this.api;
+    }
     
     this.webSocketStart = function () {
         var settings = this.controller.settings.model;
@@ -44,37 +51,8 @@ var App = function(){
     }
 
     function onConnected(){
-        console.log('socketioClient connect');
-        var api = this.api;
-        this.controller.status.setModel({state:"connected"});
-        var me = this;
-        api.getMarkets()
-        .then(function(markets){
-            me.controller.markets.setModel(markets);
-            getDepths(me, markets)
-        });
-        
-        api.getCurrencies()
-        .then(function(currencies){
-            me.controller.currencies.setModel(currencies);
-        });
-        
-        api.getBalances()
-        .then(function(balances){
-            me.controller.balances.setModel(balances);
-        })
-        .fail(function(error){
-            me.view.balances.render(null, error);
-        })
-    }
-
-    function getDepths(me, markets){
-        $.each(markets, function(i, market){
-            me.api.getDepth(market.id)
-            .done(function(depth){
-                me.controller.depth.setModel(depth);
-            })
-        })
+        console.log('App onConnected');
+        eventEmitter.emit('connected');
     }
 };
 

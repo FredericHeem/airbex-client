@@ -27,21 +27,29 @@ var MarketsView = function(){
                         $('<td>').text(market.last || 'N/A')
                 ).appendTo($markets_tbody);
             });
-
         } else {
-
         }
     }
 };
 
-
-var MarketsController = function(){
-    this.view = new MarketsView();
-    this.model = {}
+var MarketsController = function(app, eventEmitter){
+    var view = new MarketsView();
+    var model = {}
+    var me = this;
+    eventEmitter.addListener('connected', onConnected.bind(this));
+    
+    function onConnected(){
+        console.log("MarketsController onConnected");
+        app.getApi().getMarkets()
+        .then(function(markets){
+            me.setModel(markets);
+            eventEmitter.emit('markets', markets)
+        });
+    }
     
     this.setModel = function (markets){
-        this.model = markets;
-        this.view.render(markets);
+        model = markets;
+        view.render(markets);
     }
 }
 

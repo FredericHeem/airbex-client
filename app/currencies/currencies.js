@@ -25,9 +25,19 @@ var CurrenciesView = function(){
     }
 };
 
-var CurrenciesController = function(){
+var CurrenciesController = function(app, eventEmitter){
     this.view = new CurrenciesView();
     this.model = {}
+    var me = this;
+    eventEmitter.addListener('connected', onConnected.bind(this));
+    
+    function onConnected(){
+        console.log("CurrenciesController onConnected");
+        app.getApi().getCurrencies()
+        .then(function(currencies){
+            me.setModel(currencies);
+        });
+    }
     
     this.setModel = function (currencies){
         this.model = currencies;

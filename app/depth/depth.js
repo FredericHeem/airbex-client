@@ -38,13 +38,27 @@ var DepthView = function(){
     };
 };
 
-var DepthController = function(){
-    this.view = new DepthView();
-    this.model = {}
+var DepthController = function(app, eventEmitter){
+    
+    var view = new DepthView();
+    var model = {}
+    var me = this;
+    
+    eventEmitter.addListener('markets', onMarkets.bind(this));
+    
+    function onMarkets(markets){
+        console.log("DepthController onMarkets ");
+        $.each(markets, function(i, market){
+            app.getApi().getDepth(market.id)
+            .done(function(depth){
+                me.setModel(depth);
+            })
+        })
+    }
     
     this.setModel = function (depth){
-        this.model = depth;
-        this.view.render(depth);
+        model[depth.id] = depth;
+        view.render(depth);
     }
 }
 
