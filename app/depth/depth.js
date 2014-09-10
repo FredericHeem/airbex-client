@@ -1,6 +1,8 @@
-//Market Depth View
+var template = require('./depth.html')
+
 var DepthView = function(){
-    this.$orderBookContainer = $("#order-book-container-template");
+    
+    var $el = $('#order-book-container-template')
     
     this.render = function (depth) {
         if(depth){
@@ -9,9 +11,9 @@ var DepthView = function(){
             var $orderBook = $("#" + orderBookSelector);
             if($orderBook.size() === 0){
 
-                $orderBook = this.$orderBookContainer.clone();
+                $orderBook = $(template())
                 $orderBook.attr('id', orderBookSelector);
-                $orderBook.insertBefore(this.$orderBookContainer);
+                $orderBook.insertBefore($el);
             }
             $orderBook.find(".market-id").text(marketId).parent().parent().attr('id', 'sec-market-' + marketId);
 
