@@ -34,28 +34,26 @@ app.init = function () {
     this.api.addListener('connect_error', app.onConnectError);
     this.api.addListener('error', app.onError);
     this.api.start();
-    
-    this.bom = {};
 }
 
 app.onConnectError = function (){
     console.log('connect_error');
     app.controller.status.view.renderError()
+    app.controller.status.setModel({state:"error"});
 }
 
 app.onError = function (error){
     console.log('error ', error.description.message);
-    app.controller.status.view.renderError()
+    app.controller.status.setModel({state:"error"});
 }
 
 app.onConnected = function (){
     console.log('socketioClient connect');
     var api = app.api;
-    app.controller.status.view.renderConnected()
+    app.controller.status.setModel({state:"connected"});
     
     api.getMarkets()
     .then(function(markets){
-        app.bom.markets = markets;
         app.controller.markets.setModel(markets);
         app.getDepths(markets)
     });
