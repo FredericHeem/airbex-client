@@ -1,14 +1,14 @@
 'use strict';
 
-var View = require('./view.js');
-var Airbex = require('../../lib/Airbex.js');
+var Airbex = require('../lib/Airbex.js');
 
-var Markets = require('../markets/markets.js')
-var Settings = require('../settings/settings.js')
-var Status = require('../status/status.js')
-var Balances = require('../balances/balances.js')
-var Currencies = require('../currencies/currencies.js')
-var Depth = require('../depth/depth.js')
+var Markets = require('./markets/markets.js')
+var Settings = require('./settings/settings.js')
+var Status = require('./status/status.js')
+var Balances = require('./balances/balances.js')
+var Currencies = require('./currencies/currencies.js')
+var Depth = require('./depth/depth.js')
+var HomeView = require('./home/home.js');
 
 var Controller = function(){
     
@@ -26,7 +26,6 @@ app.websocketUrl = "http://localhost:5071";
 
 app.init = function () {
     
-    this.view = View;
     this.controller = new Controller();
     var settings = this.controller.settings.model;
     this.api = new Airbex.WebSocketClient({url:settings.webSocketUrl, apiKey:settings.apiKey});
@@ -36,7 +35,6 @@ app.init = function () {
     this.api.addListener('error', app.onError);
     this.api.start();
     
-
     this.bom = {};
 }
 

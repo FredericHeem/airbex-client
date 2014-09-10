@@ -38,7 +38,7 @@ module.exports = function (grunt) {
                     debug: true
                 },
                 files: {
-                    '<%= config.dist %>/app.js': '<%= config.app %>/scripts/main.js'
+                    '<%= config.dist %>/app.js': '<%= config.app %>/main.js'
                 }
             }
         },
