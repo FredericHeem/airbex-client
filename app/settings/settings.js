@@ -1,19 +1,23 @@
 var template = require('./settings.html')
 
 var SettingsView = function(){
-    this.$el = $('#settings').html(template())
-    this.$form = this.$el.find("#form-settings");
-    this.$apiKey = this.$form.find('.form-group.apikey');
-    this.$webSocketUrl = this.$form.find('.form-group.webSocketUrl');
+    var $el = $('#settings').html(template())
+    var $form = $el.find("#form-settings");
+    var $apiKey = $form.find('.form-group.apikey');
+    var $webSocketUrl = $form.find('.form-group.webSocketUrl');
+    
+    this.onSubmit = function(cb){
+        $form.on('submit', cb);
+    }
     
     this.render = function(model){
-        this.$apiKey.find('input').val(model.apiKey);
-        this.$webSocketUrl.find('input').val(model.webSocketUrl);
+        $apiKey.find('input').val(model.apiKey);
+        $webSocketUrl.find('input').val(model.webSocketUrl);
     }
     
     this.getModel = function(){
-        var apiKey = this.$apiKey.find('input').val();
-        var webSocketUrl = this.$webSocketUrl.find('input').val();
+        var apiKey = $apiKey.find('input').val();
+        var webSocketUrl = $webSocketUrl.find('input').val();
         return {apiKey: apiKey, webSocketUrl: webSocketUrl}
     }
 }
@@ -21,7 +25,7 @@ var SettingsView = function(){
 var SettingsController = function(eventEmitter){
     var model = {};
     var view = new SettingsView();
-    
+    var me = this;
     this.getModel = function(){
         return model;
     }
@@ -44,10 +48,9 @@ var SettingsController = function(eventEmitter){
     model = this.retrieveSettings();
     view.render(model);
     
-    view.$form.on('submit', function(e) {
+    view.onSubmit(function(e) {
         model = view.getModel();
-        this.saveSettings(model);
-        
+        me.saveSettings(model);
         e.preventDefault()
     })
 };
