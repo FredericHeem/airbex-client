@@ -50,7 +50,7 @@ module.exports = function (grunt) {
                 tasks: ['bowerInstall']
             },
             js: {
-                files: ['<%= config.app %>/{,*/}*.js', 'lib/*.js'],
+                files: ['<%= config.app %>/{,*/}*.{js,html}', 'lib/*.js'],
                 tasks: ['shell','browserify:development','jshint'],
                 options: {
                     livereload: true
