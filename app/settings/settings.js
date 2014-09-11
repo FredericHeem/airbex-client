@@ -34,7 +34,7 @@ var SettingsController = function(eventEmitter){
         var apiKey = localStorage.getItem("apikey");
         
         var webSocketUrl = localStorage.getItem("webSocketUrl");
-        if(webSocketUrl === undefined || webSocketUrl === ''){
+        if(webSocketUrl === undefined || webSocketUrl === '' || webSocketUrl === null){
             webSocketUrl = webSocketUrlDefault; 
         }
         var settings = {apiKey: apiKey, webSocketUrl:webSocketUrl}

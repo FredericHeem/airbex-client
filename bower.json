@@ -1,5 +1,5 @@
 {
-  "name": "airbex-wsclient",
+  "name": "airbex-client",
   "private": true,
   "dependencies": {
     "bootstrap": "~3.0.3",
