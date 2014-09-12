@@ -61,45 +61,69 @@ describe('WebSocket', function () {
            .fail(function(error){
                assert(error)
                assert.equal(error.name, "NotAuthenticated")
-               done();
            })
+           .then(done, done);
         });
     });
-    describe('WebSocketAuthenticated', function () {
+    describe('WebSocketApiKey', function () {
         var apiws = new Airbex.WebSocketClient({
             url:config.url,
             apiKey:config.apiKey
         });
         before(function(done) {
-            this.timeout(30e3);
-            apiws.start()
-            .fail(function(){
-                assert(false);
-            })
-            .done(function(){
-                done();
-            })
+            apiws.start().fail(done)
+            .then(done, done);
         });
         it('MarketsAuthenticatedOk', function (done) {
             apiws.getMarkets()
-           .done(function(markets){
+           .then(function(markets){
                assert(markets)
-               done()
-           });
+           })
+           .then(done, done);
         });
         it('CurrenciesAuthenticatedOk', function (done) {
             apiws.getCurrencies()
-           .done(function(currencies){
+           .then(function(currencies){
                assert(currencies)
-               done()
-           });
+           })
+           .then(done, done);
         });
         it('BalanceAuthenticatedOk', function (done) {
             apiws.getBalances()
-           .done(function(balances){
+           .then(function(balances){
                assert(balances)
-               done();
            })
+           .then(done, done);
+        });
+    });
+    describe('WebSocketSessionKey', function () {
+        var apiws = new Airbex.WebSocketClient({
+            url:config.url
+        });
+        before(function(done) {
+            apiws.start().done(done);
+        });
+        it('LoginWithKeyKo', function (done) {
+            var sessionKey = "asdfghjkl";
+            apiws.loginWithKey(sessionKey)
+            .fail(function(error){
+                assert(error);
+                assert.equal(error.name, 'SessionNotFound');
+                assert.equal(error.message, 'The specified session could not be found');
+            })
+            .then(done, done);
+        });
+        it('LoginKo', function (done) {
+            var email = "idonotexist@mail.com";
+            var password = "wowsuchpassword";
+            
+            apiws.login(email, password)
+            .fail(function(error){
+                assert(error);
+                assert.equal(error.name, 'SessionNotFound');
+                assert.equal(error.message, 'The specified session could not be found');
+            })
+            .then(done, done);
         });
     });
 });
