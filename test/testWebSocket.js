@@ -130,8 +130,9 @@ describe('WebSocket', function () {
             var password = config.password;
             
             apiws.login(email, password)
-            .then(function(user){
-                assert(user);
+            .then(function(response){
+                assert(response.user);
+                assert(response.sessionKey);
                 done()
             }, done)
         });

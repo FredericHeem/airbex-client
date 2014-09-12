@@ -1,4 +1,6 @@
 {
   "url" : "https://demo.airbex.net/api",
-  "apiKey":""
+  "apiKey":"",
+  "email":"justin.case@gmail.com",
+  "password": "aaaaaa"
 }
