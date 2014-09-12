@@ -24,7 +24,7 @@ describe('WebSocket', function () {
     describe('WebSocketPublic', function () {
         var apiws = new Airbex.WebSocketClient({url:config.url});
         before(function(done) {
-            apiws.start().done(done);
+            apiws.start().then(done, done);
         });
         after(function(done) {
             apiws.stop();
@@ -101,7 +101,7 @@ describe('WebSocket', function () {
             url:config.url
         });
         before(function(done) {
-            apiws.start().done(done);
+            apiws.start().then(done, done);
         });
         it('LoginWithKeyKo', function (done) {
             var sessionKey = "asdfghjkl";
@@ -124,6 +124,16 @@ describe('WebSocket', function () {
                 assert.equal(error.message, 'The specified session could not be found');
             })
             .then(done, done);
+        });
+        it('LoginOk', function (done) {
+            var email = config.email;
+            var password = config.password;
+            
+            apiws.login(email, password)
+            .then(function(user){
+                assert(user);
+                done()
+            }, done)
         });
     });
 });
