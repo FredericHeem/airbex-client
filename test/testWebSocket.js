@@ -15,6 +15,10 @@ describe('WebSocket', function () {
             var apiwsKo = new Airbex.WebSocketClient({url:"http://localhost:1234"});
             apiwsKo.start().fail(done);
         });
+        it('NoOptions', function (done) {
+            var apiwsKo = new Airbex.WebSocketClient();
+            apiwsKo.start().fail(done);
+        });
     });
     
     describe('WebSocketPublic', function () {
