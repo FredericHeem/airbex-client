@@ -64,6 +64,13 @@ describe('WebSocket', function () {
            })
            .then(done, done);
         });
+        it('Bootstrap', function (done) {
+            apiws.bootstrap().then(function(results){
+                assert(results[0])
+                assert(results[1])
+                done();
+            }, done);
+        });
     });
     describe('WebSocketApiKey', function () {
         var apiws = new Airbex.WebSocketClient({
@@ -105,7 +112,7 @@ describe('WebSocket', function () {
         });
         it('LoginWithKeyKo', function (done) {
             var sessionKey = "asdfghjkl";
-            apiws.loginWithKey(sessionKey)
+            apiws.loginWithSessionKey(sessionKey)
             .fail(function(error){
                 assert(error);
                 assert.equal(error.name, 'SessionNotFound');
@@ -132,6 +139,8 @@ describe('WebSocket', function () {
             apiws.login(email, password)
             .then(function(response){
                 assert(response.user);
+                assert(response.balances);
+                assert(response.markets);
                 assert(response.sessionKey);
                 done()
             }, done)
