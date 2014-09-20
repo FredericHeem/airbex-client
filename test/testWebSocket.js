@@ -66,8 +66,8 @@ describe('WebSocket', function () {
         });
         it('Bootstrap', function (done) {
             apiws.bootstrap().then(function(results){
-                assert(results[0])
-                assert(results[1])
+                assert(results.currencies)
+                assert(results.markets)
                 done();
             }, done);
         });
