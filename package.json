@@ -50,7 +50,8 @@
     "underscore":"1.7.0",
     "coveralls": "~2.10.0",
     "istanbul": "0.1.30",
-    "mocha-lcov-reporter": "0.0.1"
+    "mocha-lcov-reporter": "0.0.1",
+    "codeclimate-test-reporter": "x"
   },
   "engines": {
     "node": ">=0.10.0"
@@ -59,7 +60,8 @@
     "start": "./node_modules/grunt-cli/bin/grunt serve",
     "test": "NODE_ENV=demo ./node_modules/mocha/bin/mocha",
     "coverage": "NODE_ENV=demo istanbul cover _mocha -- test/*.js",
-    "coveralls": "npm run-script coverage && coveralls < coverage/lcov.info"
+    "coveralls": "npm run-script coverage && coveralls < coverage/lcov.info",
+    "codeclimate": "CODECLIMATE_REPO_TOKEN=dd2a1f365c70f018b4aa13d92c20f590a5449c91f87e18d116ddcc552ed12be6 codeclimate < coverage/lcov.info"
   },
   "readmeFilename": "README.md"
 }
