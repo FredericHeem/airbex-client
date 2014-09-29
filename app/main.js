@@ -39,9 +39,9 @@ var App = function(){
     
     function webSocketStart(me, settings) {
         me.api = new Airbex.WebSocketClient({url:settings.webSocketUrl, apiKey:settings.apiKey});
-        me.api.addListener('connected', onConnected.bind(me));
-        me.api.addListener('connect_error', onConnectError.bind(me));
-        me.api.addListener('error', onError.bind(me));
+        me.api.on('connected', onConnected.bind(me));
+        me.api.on('connect_error', onConnectError.bind(me));
+        me.api.on('error', onError.bind(me));
         me.api.start();
     }
     
