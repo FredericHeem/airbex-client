@@ -17,6 +17,7 @@
       "sjcl": "1.0.1"
   },
   "devDependencies": {
+    "mocha": "1.21.4",
     "grunt-cli": "0.1.13",
     "grunt": "~0.4.1",
     "grunt-contrib-copy": "~0.5.0",
@@ -53,7 +54,7 @@
   },
   "scripts": {
     "start": "./node_modules/grunt-cli/bin/grunt serve",
-    "test": "NODE_ENV=demo mocha"
+    "test": "NODE_ENV=demo ./node_modules/mocha/bin/mocha"
   },
   "readmeFilename": "README.md"
 }
