@@ -13,7 +13,8 @@ The documentation for the traditional REST API is available at [https://airbex.n
 
 ## Badges
 
-[![Build Status](https://travis-ci.org/FredericHeem/airbex-client.svg?branch=master)](https://travis-ci.org/FredericHeem/airbex-client)  [![Code Climate](https://codeclimate.com/github/FredericHeem/airbex-client/badges/gpa.svg)](https://codeclimate.com/github/FredericHeem/airbex-client)  [![Test Coverage](https://codeclimate.com/github/FredericHeem/airbex-client/badges/coverage.svg)](https://codeclimate.com/github/FredericHeem/airbex-client)
+[![Build Status](https://travis-ci.org/FredericHeem/airbex-client.svg?branch=master)](https://travis-ci.org/FredericHeem/airbex-client)  [![Code Climate](https://codeclimate.com/github/FredericHeem/airbex-client/badges/gpa.svg)](https://codeclimate.com/github/FredericHeem/airbex-client)  [![Codeclimate Code Coverage](https://codeclimate.com/github/FredericHeem/airbex-client/badges/coverage.svg)](https://codeclimate.com/github/FredericHeem/airbex-client)  [![Coveralls Coverage Status](https://coveralls.io/repos/FredericHeem/airbex-client/badge.png?branch=master)](https://coveralls.io/r/FredericHeem/airbex-client?branch=master)
+
 
 ## Library
 
