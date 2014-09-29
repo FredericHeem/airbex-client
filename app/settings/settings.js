@@ -1,6 +1,6 @@
 var template = require('./settings.html')
 
-var webSocketUrlDefault = "http://localhost:5071";
+var webSocketUrlDefault = "https://demo.airbex.net:443";
 
 
 var SettingsView = function(){
