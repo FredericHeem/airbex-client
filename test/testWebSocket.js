@@ -17,7 +17,7 @@ describe('WebSocket', function () {
         });
         it('NoOptions', function (done) {
             var apiwsKo = new Airbex.WebSocketClient();
-            apiwsKo.start().fail(done);
+            apiwsKo.start().then(done, done);
         });
     });
     
