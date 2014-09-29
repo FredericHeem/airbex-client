@@ -17,6 +17,7 @@
       "sjcl": "1.0.1"
   },
   "devDependencies": {
+    "grunt-cli": "0.1.13",
     "grunt": "~0.4.1",
     "grunt-contrib-copy": "~0.5.0",
     "grunt-contrib-concat": "~0.3.0",
