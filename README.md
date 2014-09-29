@@ -10,6 +10,14 @@ This package provides:
 
 The documentation for the traditional REST API is available at [https://airbex.net/apidoc/](https://airbex.net/apidoc/)
 
+
+## Badges
+
+[![Build Status](https://travis-ci.org/FredericHeem/airbex-client.svg?branch=master)](https://travis-ci.org/FredericHeem/airbex-client)
+
+[![Code Climate](https://codeclimate.com/github/FredericHeem/airbex-client/badges/gpa.svg)](https://codeclimate.com/github/FredericHeem/airbex-client)
+
+
 ## Library
 
 The Airbex WebSocket library can be used in the browser and under nodejs, thanks to [browserify](https://github.com/substack/node-browserify)

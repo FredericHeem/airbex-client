@@ -47,14 +47,19 @@
     "async": "~0.1.22",
     "debug": "0.7.x",
     "supertest": "0.7.1",
-    "underscore":"1.7.0"
+    "underscore":"1.7.0",
+    "coveralls": "~2.10.0",
+    "istanbul": "0.1.30",
+    "mocha-lcov-reporter": "0.0.1"
   },
   "engines": {
     "node": ">=0.10.0"
   },
   "scripts": {
     "start": "./node_modules/grunt-cli/bin/grunt serve",
-    "test": "NODE_ENV=demo ./node_modules/mocha/bin/mocha"
+    "test": "NODE_ENV=demo ./node_modules/mocha/bin/mocha",
+    "coverage": "NODE_ENV=demo istanbul cover _mocha -- test/*.js",
+    "coveralls": "npm run-script coverage && coveralls < coverage/lcov.info"
   },
   "readmeFilename": "README.md"
 }
