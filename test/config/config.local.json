@@ -1,6 +1,7 @@
 {
   "url" : "http://localhost:5071/",
-  "apiKey":"795d299c2be59485a0994c8dfd9a17d48aa22a3cfc801f0faad9919211f0deea",
+  "urlBaseRest": "http://localhost:5071/",
+  "apiKey":"f55f3e2feb52e30dcf29d0933c05fc043d062d4fb22825000abf542ea0a6808f",
   "email":"frederic.heem@gmail.com",
   "password": "9dcpw400"
 }

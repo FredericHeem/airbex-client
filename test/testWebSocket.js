@@ -56,6 +56,14 @@ describe('WebSocket', function () {
                done()
            });
         });
+        it('MarketsInfoNotAuthenticated', function (done) {
+            apiws.getMarketsInfo()
+           .fail(function(error){
+               assert(error)
+               assert.equal(error.name, "NotAuthenticated")
+           })
+           .then(done, done);
+        });
         it('BalanceNotAuthenticated', function (done) {
             apiws.getBalances()
            .fail(function(error){
@@ -140,7 +148,7 @@ describe('WebSocket', function () {
             .then(function(response){
                 assert(response.user);
                 assert(response.balances);
-                assert(response.markets);
+                assert(response.marketsInfo);
                 assert(response.sessionKey);
                 done()
             }, done)

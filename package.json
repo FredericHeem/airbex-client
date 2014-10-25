@@ -1,7 +1,7 @@
 {
   "name": "airbex-client",
   "description": "WebSocket client library and examples for the Airbex cryptocurrency exchange",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "lib/Airbex.js",
   "repository": {
       "type": "git",
