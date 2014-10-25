@@ -14,7 +14,8 @@
   "dependencies": {
       "socket.io-client":"1.1.0",
       "q": "1.0.1",
-      "sjcl": "1.0.1"
+      "sjcl": "1.0.1",
+      "request": "~2.44.0"
   },
   "devDependencies": {
     "mocha": "1.21.4",
