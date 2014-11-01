@@ -13,7 +13,11 @@ describe('WebSocket', function () {
     describe('WebSocketKo', function () {
         it('ConnectKo', function (done) {
             var apiwsKo = new Airbex.WebSocketClient({url:"http://localhost:1234"});
-            apiwsKo.start().fail(done);
+            apiwsKo.start().fail(function(err){
+                assert(err);
+            })
+            .then(done)
+            .fail(done)
         });
         it('NoOptions', function (done) {
             var apiwsKo = new Airbex.WebSocketClient();
