@@ -111,6 +111,36 @@ describe('WebSocket', function () {
            .then(done, done);
         });
     });
+    describe('WebSocketStartStop', function () {
+
+        it('WebSocketStartStopOk', function (done) {
+            this.timeout(10e3)
+            var apiws = new Airbex.WebSocketClient({
+                url:config.url,
+                apiKey:config.apiKey
+            });
+            
+            apiws.start()
+            .then(function(){
+                return apiws.getMarkets()
+            })
+            .then(function(){
+                return apiws.stop()
+            })
+            .then(function(){
+                return apiws.start()
+            })
+            .then(function(){
+                return apiws.getMarkets()
+            })
+            .then(function(markets){
+                assert(markets)
+            })
+            .then(done)
+            .fail(done)
+        });
+        
+    });
     describe('WebSocketSessionKey', function () {
         var apiws = new Airbex.WebSocketClient({
             url:config.url
